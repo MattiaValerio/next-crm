@@ -1,0 +1,22 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Build Next.js app
+        run: npm run build
+      - name: Deploy to Netlify
+        uses: netlify/actions@v1
+        with:
+          deploy-token: ${{ secrets.NETLIFY_TOKEN }}
+          deploy-target: ${{ secrets.NETLIFY_TARGET }}
