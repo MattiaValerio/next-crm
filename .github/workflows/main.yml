@@ -14,7 +14,7 @@ jobs:
       - name: Build Next.js app
         run: npm run build
       - name: Deploy to Netlify
-        uses: netlify/actions@v1
+        uses: netlify/actions@v2
         with:
           deploy-token: ${{ secrets.NETLIFY_TOKEN }}
           deploy-target: ${{ secrets.NETLIFY_TARGET }}
