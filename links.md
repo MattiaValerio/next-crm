@@ -14,3 +14,7 @@ https://lucia-auth.com/database/prisma
 ## Lucia Username & psw login
 https://lucia-auth.com/tutorials/username-and-password/nextjs-app
 
+## Netlify WebSite
+Admin URL: https://app.netlify.com/sites/visionary-sherbet-aff29f
+URL:       https://visionary-sherbet-aff29f.netlify.app
+Site ID:   a3d1b028-0905-4270-8f7c-bea9f4422290
