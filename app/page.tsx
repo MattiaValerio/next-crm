@@ -4,4 +4,4 @@ export default function Home() {
       <h1>HELLO FROM ACTION</h1>
     </div>
   );
-}
+} 
