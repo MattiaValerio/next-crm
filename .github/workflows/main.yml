@@ -1,0 +1,28 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Install Netlify
+        run: npm install netlify-cli@17.10.1 -g
+      - name: Build Next.js app
+        run: npm run build
+      - name: Link Netl  ify site
+        run: netlify link
+      - name: Deploy to Netlify
+        id: netlify_deploy
+        run: |
+          netlify deploy \
+            --dir dist \
+            --site ${{ secrets.NETLIFY_TARGET }} \
+            --auth ${{ secrets.NETLIFY_TOKEN }}
