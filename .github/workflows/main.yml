@@ -9,15 +9,22 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: ✅ Checkout code
         uses: actions/checkout@v2
+      
       - name: Install dependencies
         run: npm install
+      
       - name: Install Netlify
         run: npm install netlify-cli@17.10.1 -g
-      - name: Build Next.js app
+      
+      - name: Link sites
+        run: netlify link
+      
+      - name: 🛠 Build app
         run: npm run build
-      - name: Deploy to Netlify
+      
+      - name: 🚀 Deploy to Netlify
         id: netlify_deploy
         run: |
           netlify deploy \
