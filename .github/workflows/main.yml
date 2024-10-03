@@ -18,9 +18,6 @@ jobs:
       - name: Install Netlify
         run: npm install netlify-cli@17.10.1 -g
       
-      - name: Link sites
-        run: netlify link
-      
       - name: 🛠 Build app
         run: npm run build
       
