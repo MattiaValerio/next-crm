@@ -1,36 +1,70 @@
-import { Lucia } from "lucia";
-import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
-import { PrismaClient } from "@prisma/client";
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
+import { saltAndHashPassword } from "@/utils/helper";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { db } from "./db";
+import { NextResponse } from "next/server";
+import Error from "next/error";
+import { Console } from "console";
 
+export const {
+  handlers: { GET, POST }, signIn, signOut, auth} = NextAuth({
+  adapter: PrismaAdapter(db),
+  session: { strategy: "jwt" },
+  providers: [
+    Credentials({
+      name: "Credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "email@example.com",
+        },
+        password: { label: "Password", type: "password" },
+      },
+      authorize: async (credentials) => {
+        if (!credentials || !credentials.email || !credentials.password) {
+          return null;
+        }
 
+        const email = credentials.email as string;
+        const hash = saltAndHashPassword(credentials.password);
 
-const client = new PrismaClient();
-const adapter = new PrismaAdapter(client.session, client.user);
+        // Check if the user exists
+        let user: any = await db.user.findUnique({
+          where: {
+            email,
+          },
+        });
 
+        // If the user doesn't exist, create a new one
+        if (!user) {
+          user = await db.user.create({
+            data: {
+              id: crypto.randomUUID(),
+              email,
+              hashedPassword: hash,
+            },
+          });
+        } else {
 
+          // Check if the password is correct
+          const isMatch = bcrypt.compareSync(
+            credentials.password as string,
+            user.hashedPassword
+          );
 
-export const lucia = new Lucia(adapter, {
-	sessionCookie: {
-		expires: false,
-		attributes: {
-			secure: process.env.NODE_ENV === "production"
-		}
-	},
-	getUserAttributes: (attributes) => {
-		return {
-			// attributes has the type of DatabaseUserAttributes
-			username: attributes.username
-		};
-	}
+          // If the password is incorrect
+          if (!isMatch) {
+            console.error("Password is incorrect for user ", user.email);
+            
+            return;
+          }
+        }
+
+        return user;
+      },
+    }),
+  ],
 });
-
-declare module "lucia" {
-	interface Register {
-		Lucia: typeof lucia;
-		DatabaseUserAttributes: DatabaseUserAttributes;
-	}
-}
-
-interface DatabaseUserAttributes {
-	username: string;
-}

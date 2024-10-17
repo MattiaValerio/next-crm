@@ -1,7 +1,23 @@
+import { LoginButton, LogoutButton, ProfileButton, RegisterButton } from "./components/forms/AuthButtons";
+
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1>HELLO FROM ACTION</h1>
-    </div>
+    <>
+      <main
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <div className={"flex gap-2 "}>
+        <LoginButton />
+        <RegisterButton />
+        <LogoutButton />
+        <ProfileButton />
+      </div>
+    </main>
+    </>      
   );
 } 
