@@ -11,13 +11,7 @@ export const LoginButton = () => {
   );
 };
 
-export const RegisterButton = () => {
-  return (
-    <Link className="border text-center px-2" href="/register">
-      Register
-    </Link>
-  );
-};
+
 
 export const LogoutButton = () => {
   return (
@@ -28,5 +22,5 @@ export const LogoutButton = () => {
 };
 
 export const ProfileButton = () => {
-  return <Link className="border text-center px-2" href="/profile">Profile</Link>;
+  return <Link className="border text-center px-2" href="/server">Profile</Link>;
 };

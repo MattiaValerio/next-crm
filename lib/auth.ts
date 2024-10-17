@@ -1,12 +1,8 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
 import { saltAndHashPassword } from "@/utils/helper";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "./db";
-import { NextResponse } from "next/server";
-import Error from "next/error";
-import { Console } from "console";
 
 export const {
   handlers: { GET, POST }, signIn, signOut, auth} = NextAuth({
@@ -14,7 +10,7 @@ export const {
   session: { strategy: "jwt" },
   providers: [
     Credentials({
-      name: "Credentials",
+      name: "Email & Password",
       credentials: {
         email: {
           label: "Email",
@@ -49,18 +45,20 @@ export const {
           });
         } else {
 
-          // Check if the password is correct
-          const isMatch = bcrypt.compareSync(
-            credentials.password as string,
-            user.hashedPassword
-          );
 
-          // If the password is incorrect
-          if (!isMatch) {
-            console.error("Password is incorrect for user ", user.email);
+          throw new Error("Incorrect password.");
+          // // Check if the password is correct
+          // const isMatch = bcrypt.compareSync(
+          //   credentials.password as string,
+          //   user.hashedPassword
+          // );
+
+          // // If the password is incorrect
+          // if (!isMatch) {
+          //   console.error("Password is incorrect for user ", user.email);
             
-            return;
-          }
+          //   return;
+          // }
         }
 
         return user;

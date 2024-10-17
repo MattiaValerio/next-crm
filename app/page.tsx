@@ -1,4 +1,4 @@
-import { LoginButton, LogoutButton, ProfileButton, RegisterButton } from "./components/forms/AuthButtons";
+import { LoginButton, LogoutButton, ProfileButton } from "./components/forms/AuthButtons";
 
 export default function Home() {
   return (
@@ -13,7 +13,6 @@ export default function Home() {
     >
       <div className={"flex gap-2 "}>
         <LoginButton />
-        <RegisterButton />
         <LogoutButton />
         <ProfileButton />
       </div>

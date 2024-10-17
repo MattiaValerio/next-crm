@@ -3,14 +3,16 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 const Server = async () => {
+  // verifico che l'utente sia autenticato
   const session = await auth();
   if (!session?.user) {
-    redirect("/");
+    redirect("/"); // se non è autenticato lo reindirizzo alla home
   }
   return (
     <main className="flex h-full items-center justify-center flex-col gap-2">
-      <h1 className="text-3xl">Server page</h1>
-      <p className="text-lg">{session?.user?.email}</p>
+      <h1 className="text-3xl">Profile page</h1>
+      <p>NAME: {session?.user?.name}</p>
+      <p className="text-lg">Email: {session?.user?.email}</p>
     </main>
   );
 };

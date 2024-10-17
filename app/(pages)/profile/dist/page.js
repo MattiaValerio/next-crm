@@ -36,47 +36,29 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.POST = void 0;
-var db_1 = require("@/lib/db");
-var bcryptjs_1 = require("bcryptjs");
-var server_1 = require("next/server");
-function POST(req) {
-    return __awaiter(this, void 0, void 0, function () {
-        var _a, name, email, password, hashed_password, user, error_1;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 4, , 5]);
-                    return [4 /*yield*/, req.json()];
-                case 1:
-                    _a = (_b.sent()), name = _a.name, email = _a.email, password = _a.password;
-                    return [4 /*yield*/, bcryptjs_1.hash(password, 12)];
-                case 2:
-                    hashed_password = _b.sent();
-                    return [4 /*yield*/, db_1.db.user.create({
-                            data: {
-                                name: name,
-                                email: email.toLowerCase(),
-                                password: hashed_password
-                            }
-                        })];
-                case 3:
-                    user = _b.sent();
-                    return [2 /*return*/, server_1.NextResponse.json({
-                            user: {
-                                name: user.name,
-                                email: user.email
-                            }
-                        })];
-                case 4:
-                    error_1 = _b.sent();
-                    return [2 /*return*/, new server_1.NextResponse(JSON.stringify({
-                            status: "error",
-                            message: error_1.message
-                        }), { status: 500 })];
-                case 5: return [2 /*return*/];
-            }
-        });
+var auth_1 = require("@/lib/auth");
+var navigation_1 = require("next/navigation");
+var react_1 = require("react");
+var Server = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var session;
+    var _a, _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, auth_1.auth()];
+            case 1:
+                session = _c.sent();
+                if (!(session === null || session === void 0 ? void 0 : session.user)) {
+                    navigation_1.redirect("/"); // se non è autenticato lo reindirizzo alla home
+                }
+                return [2 /*return*/, (react_1["default"].createElement("main", { className: "flex h-full items-center justify-center flex-col gap-2" },
+                        react_1["default"].createElement("h1", { className: "text-3xl" }, "Profile page"),
+                        react_1["default"].createElement("p", null,
+                            "NAME: ", (_a = session === null || session === void 0 ? void 0 : session.user) === null || _a === void 0 ? void 0 :
+                            _a.name),
+                        react_1["default"].createElement("p", { className: "text-lg" },
+                            "Email: ", (_b = session === null || session === void 0 ? void 0 : session.user) === null || _b === void 0 ? void 0 :
+                            _b.email)))];
+        }
     });
-}
-exports.POST = POST;
+}); };
+exports["default"] = Server;

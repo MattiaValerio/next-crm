@@ -11,7 +11,6 @@ function Home() {
             } },
             React.createElement("div", { className: "flex gap-2 " },
                 React.createElement(AuthButtons_1.LoginButton, null),
-                React.createElement(AuthButtons_1.RegisterButton, null),
                 React.createElement(AuthButtons_1.LogoutButton, null),
                 React.createElement(AuthButtons_1.ProfileButton, null)))));
 }
